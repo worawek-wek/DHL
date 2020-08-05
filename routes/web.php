@@ -23,3 +23,4 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('shipping', 'ShippingController');
 });
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/pdf', 'PDFController@index');
