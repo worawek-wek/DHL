@@ -56,22 +56,22 @@
                             <form method="GET" action="{{@$page_url}}">
                                 <div class="col-sm-3 search-box mb-2 d-inline-block">
                                     <div class="position-relative">
-                                        <input type="search" class="form-control" name="about_certificate_name" placeholder="name..." value="{{@$query['about_certificate_name']}}">
+                                        <input type="search" class="form-control" name="about_certificate_name" placeholder="เลขประจำตัวผู้เสียภาษีอากร..." value="{{@$query['about_certificate_name']}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-3 mb-2 d-inline-block">
-                                        <button style="background-color: #556ee6; color:white" class="btn btn-rounded waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; search</button>
+                                        <button style="background-color: #556ee6; color:white" class="btn btn-rounded waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
                                 </div>
                             </form>
                         </div>
                         <div class="col-sm-3">
                             <div class="text-sm-right">
-                                <a href="{{$page_url}}/create" class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> New {{$page}}</a>
+                                <a href="{{$page_url}}/create" class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่ม {{$page}}</a>
                             </div>
                         </div><!-- end col-->
                         <div class="col-sm-12 btnDeleteAll" style="display: none">
                             <div class="text-sm-right">
-                                <button type="button" class="btn btn-danger waves-effect waves-light" onclick="btnDeleteAll()"><i class="mdi mdi-delete mr-1"></i> Delete all</button>
+                                <button type="button" class="btn btn-danger waves-effect waves-light" onclick="btnDeleteAll()"><i class="mdi mdi-delete mr-1"></i> ลบทั้งหมด</button>
                             </div>
                         </div><!-- end col-->
                     </div>
@@ -80,37 +80,31 @@
                         <table class="table table-centered table-nowrap">
                             <thead class="thead-light">
                                 <tr align="center">
-                                    <th style="width: 20px;">
+                                    {{-- <th style="width: 20px;">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" onchange="checkAll(this)" class="custom-control-input" id="customCheckAll">
                                             <label class="custom-control-label" for="customCheckAll">&nbsp;</label>
                                         </div>
-                                    </th>
+                                    </th> --}}
                                     <th>#</th>
-                                    <th>Picture</th>
-                                    <th width='50%'>Name</th>
-                                    <th>Create</th>
-                                    <th>Update</th>
-                                    <th>Action</th>
+                                    <th width='50%'>เลขประจำตัวผู้เสียภาษีอากร</th>
+                                    <th>สร้าง</th>
+                                    <th>แก้ไข</th>
+                                    <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{-- @foreach ($list_data as $value)
                                 
-                                <tr align="center">
-                                    <td>
+                                <tr align="center"> --}}
+                                    {{-- <td>
                                         <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input" onchange="checkList()" id="customCheck{{$num}}" value="{{$value->id}}">
                                             <label class="custom-control-label" for="customCheck{{$num}}">&nbsp;</label>
                                         </div>
-                                    </td>
-                                    <td>{{$num++}}</td>
-                                    <td>
-                                        <div class="zoom-gallery">
-                                        <a class="float-left" href="{{URL::asset('upload/about/'.$page_url)}}/{{$value->about_certificate_image}}" title="{{$value->about_certificate_name}}"><img width="50px" src="{{URL::asset('upload/about/'.$page_url)}}/{{$value->about_certificate_image}}" alt="" width="275"></a>
-                                        </div>
-                                    </td>
-                                    <td>{{$value->about_certificate_name}}</td>
+                                    </td> --}}
+                                    {{-- <td>{{$num++}}</td>
+                                    <td>{{$value->deduct_tax_identification}}</td>
                                     <td>
                                         {{$value->created_at}}
                                     </td>
@@ -118,12 +112,13 @@
                                         {{$value->updated_at}}
                                     </td>
                                     <td>
-                                        <a href="{{$page_url}}/edit/{{$value->id}}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript: void(0);" onclick="deleteFromTable({{$value->id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a>
-                                    </td>
+                                        <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                        <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a> --}}
+                                        {{-- <a href="javascript: void(0);" onclick="deleteFromTable({{$value->id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a> --}}
+                                    {{-- </td>
                                 </tr>
-                                @endforeach --}}
-                                {{-- @include('layouts/data-notfound') --}}
+                                @endforeach
+                                @include('layouts/data-notfound') --}}
                             </tbody>
                         </table>
                     </div>

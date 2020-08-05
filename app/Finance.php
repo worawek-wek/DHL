@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shipping extends Model
+class Finance extends Model
 {
     protected $fillable = [
         "deduct_tax_identification",
@@ -27,5 +27,5 @@ class Shipping extends Model
 
     public $timestamps = true;
     protected $primaryKey = 'id';
-    protected $table = 'shippings';
+    protected $table = 'finances';
 }

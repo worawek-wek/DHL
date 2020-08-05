@@ -14,13 +14,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::resource('shipping', 'ShippingController');
+    // Route::group(['middleware' => ['admin']], function(){
+    Route::group(['middleware' => ['shipping']], function(){
+        Route::prefix('shipping')->group(function () {
+            Route::get('/', 'ShippingController@index');
+            Route::get('/create', 'ShippingController@create');
+            Route::get('/{id}/edit', 'ShippingController@edit');
+            Route::post('/{id}', 'ShippingController@store');
+            Route::post('{id}/update', 'ShippingController@update');
+            Route::post('select_product', 'ShippingController@select_product');
+        });
+    });
+    Route::group(['middleware' => ['finance']], function(){
+        Route::prefix('finance')->group(function () {
+            Route::get('/', 'FinanceController@index');
+            Route::get('/create', 'FinanceController@create');
+            Route::get('/{id}/edit', 'FinanceController@edit');
+            Route::post('/{id}', 'FinanceController@store');
+            Route::post('{id}/update', 'FinanceController@update');
+            Route::post('select_product', 'FinanceController@select_product');
+        });
+    });
 });
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/pdf', 'PDFController@index');

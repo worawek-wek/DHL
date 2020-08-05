@@ -36,7 +36,7 @@
 
     <div class="row">
         <div class="col-12">
-            <form id="about_holidayForm" action="{{$action}}" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
+            <form id="financeForm" action="{{$action}}" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <button class="btn btn-primary">Save</button>
@@ -49,18 +49,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">เลขประจำตัวผู้เสียภาษีอากร</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="deduct_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="deduct_tax_identification" class="form-control" id="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->deduct_tax_identification}}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="about_holiday_date">ชื่อ</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ชื่อ" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="deduct_name">ชื่อ</label> <span class="required">*</span>
+                                        <input type="text" name="deduct_name" class="form-control" id="deduct_name" placeholder="ชื่อ" value="{{@$finance->deduct_name}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">ที่อยู่</label>
-                                        <textarea name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ที่อยู่" rows="5" value="{{@$about_holiday->about_holiday_date}}" required></textarea>
+                                        <label for="deduct_address">ที่อยู่</label> <span class="required">*</span>
+                                        <textarea name="deduct_address" class="form-control" id="deduct_address" placeholder="ที่อยู่" rows="5" required>{{@$finance->deduct_address}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -73,18 +73,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">เลขประจำตัวผู้เสียภาษีอากร</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="represent_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="represent_tax_identification" class="form-control" id="represent_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->represent_tax_identification}}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="about_holiday_date">โดยตัวแทน</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="โดยตัวแทน" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="represent_name">โดยตัวแทน</label> <span class="required">*</span>
+                                        <input type="text" name="represent_name" class="form-control" id="represent_name" placeholder="โดยตัวแทน" value="{{@$finance->represent_name}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">ที่อยู่</label>
-                                        <textarea name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ที่อยู่" rows="5" value="{{@$about_holiday->about_holiday_date}}" required></textarea>
+                                        <label for="represent_address">ที่อยู่</label> <span class="required">*</span>
+                                        <textarea name="represent_address" class="form-control" id="represent_address" placeholder="ที่อยู่" rows="5"  required>{{@$finance->represent_address}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -97,30 +97,30 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">เลขประจำตัวผู้เสียภาษีอากร</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="pay_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="pay_tax_identification" class="form-control" id="pay_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->pay_tax_identification}}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="about_holiday_date">ชื่อ</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ชื่อ" value="{{@$about_holiday->about_holiday_date}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="about_holiday_date">ที่อยู่</label>
-                                        <textarea name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ที่อยู่" rows="5" value="{{@$about_holiday->about_holiday_date}}" required></textarea>
+                                        <label for="pay_name">ชื่อ</label> <span class="required">*</span>
+                                        <input type="text" name="pay_name" class="form-control" id="pay_name" placeholder="ชื่อ" value="{{@$finance->pay_name}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">AWB No.</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="AWB No." value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="pay_address">ที่อยู่</label> <span class="required">*</span>
+                                        <textarea name="pay_address" class="form-control" id="pay_address" placeholder="ที่อยู่" rows="5" required >{{@$finance->pay_address}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">ลำดับที่</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ลำดับที่" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="awb_no">AWB No.</label> <span class="required">*</span>
+                                        <input type="text" name="awb_no" class="form-control" id="awb_no" placeholder="AWB No." value="{{@$finance->awb_no}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="number">ลำดับที่</label> <span class="required">*</span>
+                                        <input type="text" name="number" class="form-control" id="number" placeholder="ลำดับที่" value="{{@$finance->number}}" required>
                                     </div>
                                 </div>
                             </div>
@@ -133,34 +133,28 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="about_holiday_date">วัน เดือน หรือ ปีภาษีที่จ่าย</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="วัน เดือน หรือ ปีภาษีที่จ่าย" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="date_current">วัน เดือน หรือ ปีภาษีที่จ่าย</label> <span class="required">*</span>
+                                        <input type="text" name="date_current" class="form-control" id="date_current" placeholder="วัน เดือน หรือ ปีภาษีที่จ่าย" value="{{@$finance->date_current}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="pay_price">จำนวนเงินที่จ่าย</label>
-                                        <input type="number" name="pay_price" class="form-control" id="pay_price" oninput="payPrice(this.value)" pattern="(d{3})([.])(d{2})" placeholder="จำนวนเงินที่จ่าย" value="{{@$about_holiday->pay_price}}" required>
+                                        <label for="pay_price">จำนวนเงินที่จ่าย</label> <span class="required">*</span>
+                                        <input type="number" name="pay_price" class="form-control" id="pay_price" oninput="payPrice(this.value)" pattern="(d{3})([.])(d{2})" placeholder="จำนวนเงินที่จ่าย" value="{{@$finance->pay_price}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="pay_tax">ภาษีที่หักและนำส่งไว้</label><span style="color: coral"> (หักจากจำนวนที่จ่าย 3 %)</span>
-                                        <input type="number" name="pay_tax" class="form-control" id="pay_tax" placeholder="ภาษีที่หักและนำส่งไว้" value="{{@$about_holiday->pay_tax}}" required>
+                                        <label for="pay_tax">ภาษีที่หักและนำส่งไว้</label> <span class="required">*</span><span style="color: coral"> (หักจากจำนวนที่จ่าย 3 %)</span>
+                                        <input type="number" name="pay_tax" class="form-control" id="pay_tax" placeholder="ภาษีที่หักและนำส่งไว้" value="{{@$finance->pay_tax}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="pay_tax_text">รวมเงินภาษีที่หักนำส่ง</label><span style="color: coral"> (ตัวอักษร)</span>
-                                        <input type="text" name="pay_tax_text" class="form-control" id="pay_tax_text" placeholder="รวมเงินภาษีที่หักนำส่ง" value="{{@$about_holiday->pay_tax_text}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="about_holiday_date">ลำดับที่</label>
-                                        <input type="text" name="about_holiday_date" class="form-control" id="about_holiday_date" placeholder="ลำดับที่" value="{{@$about_holiday->about_holiday_date}}" required>
+                                        <label for="pay_tax_text">รวมเงินภาษีที่หักนำส่ง</label> <span class="required">*</span><span style="color: coral"> (ตัวอักษร)</span>
+                                        <input type="text" name="pay_tax_text" class="form-control" id="pay_tax_text" placeholder="รวมเงินภาษีที่หักนำส่ง" value="{{@$finance->pay_tax_text}}" required>
                                     </div>
                                 </div>
                             </div>

@@ -19,7 +19,23 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            if(auth()->user()->isAdmin()) {
+    
+                return redirect('shipping');
+    
+            } else if(auth()->user()->isShipping()) {
+    
+                return redirect('shipping');
+    
+            } else if(auth()->user()->isFinance()) {
+    
+                return redirect('finance');
+    
+            } else if(auth()->user()->isBilling()) {
+    
+                return redirect('biliing');
+    
+            }
         }
 
         return $next($request);

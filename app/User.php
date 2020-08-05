@@ -36,4 +36,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    const ADMIN_ROLE = 1;
+    const SHIPPING_ROLE = 2;
+    const FINANCE_ROLE = 3;
+    const BILLING_ROLE = 4;
+    const DEFAULT_TYPE = 0;
+
+    public function isAdmin(){
+        return $this->role === self::ADMIN_ROLE;
+    }
+    public function isShipping(){
+        return $this->role === self::SHIPPING_ROLE;
+    }
+    public function isFinance(){
+        return $this->role === self::FINANCE_ROLE;
+    }
+    public function isBilling(){
+        return $this->role === self::BILLING_ROLE;
+    }
 }

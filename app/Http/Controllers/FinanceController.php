@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Shipping;
+use App\Finance;
 
 DB::beginTransaction();
-class ShippingController extends Controller
+class FinanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +16,17 @@ class ShippingController extends Controller
      */
     public function index()
     {
-        $data['page'] = 'การส่งสินค้า';
-        $data['page_url'] = 'shipping';
-        $results = Shipping::orderBy('id','DESC')->paginate(10);
+        $data['page'] = 'Finance';
+        $data['page_url'] = 'finance';
+        // $results = Finance::orderBy('id','DESC')->paginate(10);
 
-        $data['list_data'] = $results->appends(request()->query());
-        $data['query'] = request()->query();
+        // $data['list_data'] = $results->appends(request()->query());
+        // $data['query'] = request()->query();
 
-        $dataPaginate = $results->toArray();
+        // $dataPaginate = $results->toArray();
 
-        $data['num'] = $dataPaginate['from'];
-        return view('shipping/index',$data);
+        // $data['num'] = $dataPaginate['from'];
+        return view('finance/index',$data);
         //
     }
 
@@ -37,12 +37,12 @@ class ShippingController extends Controller
      */
     public function create()
     {
-        $data['page_before'] = 'การส่งสินค้า';
+        $data['page_before'] = 'Finance';
         $data['page'] = 'Add';
-        $data['page_url'] = 'shipping';
-        $data['action'] = '/shipping';
+        $data['page_url'] = 'finance';
+        $data['action'] = '/finance';
         $data['method'] = "POST";
-        return view('shipping/add',$data);
+        return view('finance/add',$data);
         //
     }
 
@@ -55,7 +55,7 @@ class ShippingController extends Controller
     public function store(Request $request)
     {
         try{
-            $product = new Shipping;
+            $product = new Finance;
             $product->deduct_tax_identification = $request->deduct_tax_identification;
             $product->deduct_name = $request->deduct_name;
             $product->deduct_address = $request->deduct_address;
@@ -75,7 +75,7 @@ class ShippingController extends Controller
             $product->save();
 
             DB::commit();
-            return redirect('shipping')->with('message', 'Insert product "'.$request->deduct_name.'" success');
+            return redirect('finance')->with('message', 'Insert product "'.$request->deduct_name.'" success');
         } catch (QueryException $err) {
             DB::rollBack();
         }
@@ -100,15 +100,15 @@ class ShippingController extends Controller
      */
     public function edit($id)
     {
-        $data['page_before'] = 'การส่งสินค้า';
+        $data['page_before'] = 'Finance';
         $data['page'] = 'Add';
-        $data['page_url'] = 'shipping';
-        $data['action'] = "/shipping/$id/update";
+        $data['page_url'] = 'finance';
+        $data['action'] = "/finance/$id/update";
         $data['method'] = "PUT";
         
-        $data['shipping'] = Shipping::find($id);
+        $data['finance'] = Finance::find($id);
 
-        return view('shipping/add',$data);
+        return view('finance/add',$data);
     }
 
     /**
@@ -121,7 +121,7 @@ class ShippingController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $product = Shipping::find($id);
+            $product = Finance::find($id);
             $product->deduct_tax_identification = $request->deduct_tax_identification;
             $product->deduct_name = $request->deduct_name;
             $product->deduct_address = $request->deduct_address;
@@ -141,7 +141,7 @@ class ShippingController extends Controller
             $product->save();
 
             DB::commit();
-            return redirect('shipping')->with('message', 'Insert product "'.$request->deduct_name.'" success');
+            return redirect('finance')->with('message', 'Insert product "'.$request->deduct_name.'" success');
         } catch (QueryException $err) {
             DB::rollBack();
         }
