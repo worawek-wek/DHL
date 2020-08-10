@@ -16,7 +16,7 @@ class FinanceController extends Controller
      */
     public function index()
     {
-        $data['page'] = 'Finance';
+        $data['page'] = 'การเงิน';
         $data['page_url'] = 'finance';
         // $results = Finance::orderBy('id','DESC')->paginate(10);
 
@@ -37,7 +37,7 @@ class FinanceController extends Controller
      */
     public function create()
     {
-        $data['page_before'] = 'Finance';
+        $data['page_before'] = 'การเงิน';
         $data['page'] = 'Add';
         $data['page_url'] = 'finance';
         $data['action'] = '/finance';
@@ -100,7 +100,7 @@ class FinanceController extends Controller
      */
     public function edit($id)
     {
-        $data['page_before'] = 'Finance';
+        $data['page_before'] = 'การเงิน';
         $data['page'] = 'Add';
         $data['page_url'] = 'finance';
         $data['action'] = "/finance/$id/update";

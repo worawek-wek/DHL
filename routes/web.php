@@ -26,9 +26,14 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/', 'ShippingController@index');
             Route::get('/create', 'ShippingController@create');
             Route::get('/{id}/edit', 'ShippingController@edit');
-            Route::post('/{id}', 'ShippingController@store');
+            Route::post('/ajax', 'ShippingController@storeAjax');
+            Route::post('/', 'ShippingController@store');
+            Route::post('{id}/update/ajax', 'ShippingController@updateAjax');
             Route::post('{id}/update', 'ShippingController@update');
             Route::post('select_product', 'ShippingController@select_product');
+            Route::get('excel/{id}', 'ShippingController@excelShipping');
+            Route::get('customer/{id}', 'ShippingController@firstCustomer');
+            Route::get('indexPDF/{id}', 'ShippingController@indexPDF');
         });
     });
     Route::group(['middleware' => ['finance']], function(){

@@ -21,7 +21,16 @@
                 <li>
                     <a href="/finance" class="waves-effect">
                         <i class="bx bx-home"></i>
-                        <span>Finance</span>
+                        <span>การเงิน</span>
+                        {{-- Home --}}
+                    </a>
+                </li>
+                @endif
+                @if (Auth::user()->isBilling() || Auth::user()->isAdmin() )
+                <li>
+                    <a href="/billing" class="waves-effect">
+                        <i class="bx bx-home"></i>
+                        <span>การเรียกเก็บเงิน</span>
                         {{-- Home --}}
                     </a>
                 </li>

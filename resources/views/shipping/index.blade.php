@@ -56,7 +56,7 @@
                             <form method="GET" action="{{@$page_url}}">
                                 <div class="col-sm-3 search-box mb-2 d-inline-block">
                                     <div class="position-relative">
-                                        <input type="search" class="form-control" name="about_certificate_name" placeholder="เลขประจำตัวผู้เสียภาษีอากร..." value="{{@$query['about_certificate_name']}}">
+                                        <input type="search" class="form-control" name="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร..." value="{{@$query['deduct_tax_identification']}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-3 mb-2 d-inline-block">
@@ -71,7 +71,7 @@
                         </div><!-- end col-->
                         <div class="col-sm-12 btnDeleteAll" style="display: none">
                             <div class="text-sm-right">
-                                <button type="button" class="btn btn-danger waves-effect waves-light" onclick="btnDeleteAll()"><i class="mdi mdi-delete mr-1"></i> ลบทั้งหมด</button>
+                            <button onclick="excel()" type="button" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-microsoft-excel"></i> Excel</button>
                             </div>
                         </div><!-- end col-->
                     </div>
@@ -80,12 +80,12 @@
                         <table class="table table-centered table-nowrap">
                             <thead class="thead-light">
                                 <tr align="center">
-                                    {{-- <th style="width: 20px;">
+                                    <th style="width: 20px;">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" onchange="checkAll(this)" class="custom-control-input" id="customCheckAll">
                                             <label class="custom-control-label" for="customCheckAll">&nbsp;</label>
                                         </div>
-                                    </th> --}}
+                                    </th>
                                     <th>#</th>
                                     <th width='15%'>เลขประจำตัวผู้เสียภาษีอากร</th>
                                     <th width='25%'>ชื่อ</th>
@@ -99,16 +99,16 @@
                                 @foreach ($list_data as $value)
                                 
                                 <tr align="center">
-                                    {{-- <td>
+                                    <td>
                                         <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" onchange="checkList()" id="customCheck{{$num}}" value="{{$value->id}}">
+                                        <input type="checkbox" class="custom-control-input checkId" onchange="checkList()" id="customCheck{{$num}}" value="{{$value->id}}">
                                             <label class="custom-control-label" for="customCheck{{$num}}">&nbsp;</label>
                                         </div>
-                                    </td> --}}
+                                    </td>
                                     <td>{{$num++}}</td>
                                     <td>{{$value->deduct_tax_identification}}</td>
                                     <td>{{$value->deduct_name}}</td>
-                                    <td>{{$value->deduct_address}}</td>
+                                    <td>@empty(!$value->deduct_address){{iconv_substr($value->deduct_address, 0, 35, "UTF-8")}}...  @endempty</td>
                                     <td>
                                         {{$value->created_at}}
                                     </td>
@@ -117,7 +117,7 @@
                                     </td>
                                     <td>
                                         <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a>
+                                        <a href="{{$page_url}}/indexPDF/{{$value->id}}" target="_blank" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a>
                                         {{-- <a href="javascript: void(0);" onclick="deleteFromTable({{$value->id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a> --}}
                                     </td>
                                 </tr>
@@ -139,6 +139,18 @@
 @endsection
 
 @section('script')
+<script>
+    function excel(){
+        var id = [];
+                $('.checkId').each(function() {
+                    if($(this).is(':checked')){
+                        var v = $(this).val();
+                        id.push(v);
+                    }
+                });
+        window.location.href = "{{url('shipping/excel')}}/"+id;
+    }
+</script>
         <!-- Magnific Popup-->
         <script src="{{ URL::asset('assets/libs/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
 

@@ -23,6 +23,7 @@ class Shipping extends Model
         "pay_tax",
         "pay_tax_text",
         "who_pay",
+        "ref_customer_id",
     ];
 
     public $timestamps = true;
