@@ -4,6 +4,10 @@
 
 @section('css') 
 
+        <link href="{{ URL::asset('assets/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" rel="stylesheet">
+        <link href="{{ URL::asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+        <link href="{{ URL::asset('assets/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ URL::asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -36,7 +40,7 @@
 
     <div class="row">
         <div class="col-12">
-            <form id="financeForm" action="{{$action}}" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
+            <form id="financeForm" action="{{$action}}" target="_blank" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <button class="btn btn-primary">Save</button>
@@ -45,22 +49,90 @@
                 <div class="card">
                     <div class="card-body">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id" id="financeId">
                             <h4 class="card-title">ผู้มีหน้าที่หักภาษี ณ ที่จ่าย</h4>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="deduct_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
-                                        <input type="text" name="deduct_tax_identification" class="form-control" id="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->deduct_tax_identification}}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="deduct_name">ชื่อ</label> <span class="required">*</span>
-                                        <input type="text" name="deduct_name" class="form-control" id="deduct_name" placeholder="ชื่อ" value="{{@$finance->deduct_name}}" required>
+                                        <select name="customer_id" onchange="customerChange(this.value)" class="form-control select2" required>
+                                            <option value="">ค้นหาลูกค้า</option>
+                                            @foreach ($customer as $cus)
+                                                <option value="{{$cus->id}}" @if ($cus->id==@$finance['ref_customer_id'])
+                                                    selected
+                                                @endif>{{$cus->companyName}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="deduct_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="deduct_address" class="form-control" id="deduct_address" placeholder="ที่อยู่" rows="5" required>{{@$finance->deduct_address}}</textarea>
+                                        <label for="deduct_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="deduct_tax_identification" class="form-control" id="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance['deduct_tax_identification']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="deduct_name">ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย</label> <span class="required">*</span>
+                                        <input type="text" name="deduct_name" class="form-control" id="deduct_name" placeholder="ชื่อ" value="{{@$finance['deduct_name']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h5>ที่อยู่</h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_number">เลขที่</label> <span class="required">*</span>
+                                        <input name="address_number" class="form-control" id="address_number" placeholder="เลขที่" rows="5" required value="{{@$finance['address_number']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_moo">หมู่ที่</label> <span class="required">*</span>
+                                        <input name="address_moo" class="form-control" id="address_moo" placeholder="หมู่ที่" rows="5" required value="{{@$finance['address_moo']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_alley">ตรอก/ซอย</label> <span class="required">*</span>
+                                        <input name="address_alley" class="form-control" id="address_alley" placeholder="ตรอก/ซอย" rows="5" required value="{{@$finance['address_alley']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_street">ถนน</label> <span class="required">*</span>
+                                        <input name="address_street" class="form-control" id="address_street" placeholder="ถนน" rows="5" required value="{{@$finance['address_street']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_subdistrict">ตำบล/แขวง</label> <span class="required">*</span>
+                                        <input name="address_subdistrict" class="form-control" id="address_subdistrict" placeholder="ตำบล/แขวง" rows="5" required value="{{@$finance['address_subdistrict']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_district">อำเภอ/เขต</label> <span class="required">*</span>
+                                        <input name="address_district" class="form-control" id="address_district" placeholder="อำเภอ/เขต" rows="5" required value="{{@$finance['address_district']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_province">จังหวัด</label> <span class="required">*</span>
+                                        <input name="address_province" class="form-control" id="address_province" placeholder="จังหวัด" rows="5" required value="{{@$finance['address_province']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_zipcode">รหัสไปรษณีย์</label> <span class="required">*</span>
+                                        <input name="address_zipcode" class="form-control" id="address_zipcode" placeholder="รหัสไปรษณีย์" rows="5" required value="{{@$finance['address_zipcode']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="phone">โทรศัพท์</label> <span class="required">*</span>
+                                        <input name="phone" class="form-control" id="phone" placeholder="โทรศัพท์" rows="5" required value="{{@$finance['phone']}}">
                                     </div>
                                 </div>
                             </div>
@@ -68,98 +140,73 @@
                 </div>        
                 <div class="card">
                     <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <h4 class="card-title">การกระทำการแทน</h4>
+                            <h4 class="card-title">เดือนที่จ่ายเงินได้พึงประเมิน</h4>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="represent_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
-                                        <input type="text" name="represent_tax_identification" class="form-control" id="represent_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->represent_tax_identification}}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="represent_name">โดยตัวแทน</label> <span class="required">*</span>
-                                        <input type="text" name="represent_name" class="form-control" id="represent_name" placeholder="โดยตัวแทน" value="{{@$finance->represent_name}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="represent_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="represent_address" class="form-control" id="represent_address" placeholder="ที่อยู่" rows="5"  required>{{@$finance->represent_address}}</textarea>
+                                        <label for="month_pay">เดือน</label> <span class="required">*</span>
+                                        <input type="text" name="month_pay" class="form-control" data-provide="datepicker" placeholder="เดือน" data-date-format="mm yyyy" data-date-min-view-mode="1" value="{{@$finance['month_pay']}}" required>
                                     </div>
                                 </div>
                             </div>
+                    </div>
+                </div>   
+                <div class="card">
+                    <div class="card-body">
+                            <h4 class="card-title">รายละเอียดการหักเป็นรายผู้มีเงินได้</h4>
+                            <div class="row" style="margin: 0 15px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                            <input type="radio" name="attachment" class="form-check-input" id="attachment1" @if(@$finance['attachment'] == 1) checked @endif value="1" required>
+                                            <label class="form-check-label" for="attachment1">ใบแนบ ภ.ง.ด.53 ที่แนบมาพร้อมนี้</label><br>
+                                            <input type="radio" name="attachment" class="form-check-input" id="attachment2" @if(@$finance['attachment'] == 2) checked @endif value="2" required>
+                                            <label class="form-check-label" for="attachment2">สื่อบันทึกในระบบคอมพิวเตอร์ ที่แนบมาพร้อมนี้</label>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="qty_case">ราย</label> <span class="required">*</span>
+                                        <input type="text" name="qty_case" class="form-control" placeholder="ราย" value="{{@$finance['qty_case']}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="qty_sheet">แผ่น</label> <span class="required">*</span>
+                                        <input type="text" name="qty_sheet" class="form-control" placeholder="แผ่น" value="{{@$finance['qty_sheet']}}" required>
+                                    </div>
+                                </div>
                     </div>
                 </div>                               
                 <div class="card">
                     <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <h4 class="card-title">ผู้ถูกหักภาษี ณ ที่จ่าย</h4>
+                            <h4 class="card-title">สรุปรายการภาษีที่นำส่ง</h4>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="pay_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
-                                        <input type="text" name="pay_tax_identification" class="form-control" id="pay_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$finance->pay_tax_identification}}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="pay_name">ชื่อ</label> <span class="required">*</span>
-                                        <input type="text" name="pay_name" class="form-control" id="pay_name" placeholder="ชื่อ" value="{{@$finance->pay_name}}" required>
+                                        <label for="total_amount">รวมยอดเงินได้ทั้งสิ้น</label> <span class="required">*</span>
+                                        <input type="text" name="total_amount" class="form-control" id="total_amount" placeholder="รวมยอดเงินได้ทั้งสิ้น" value="{{@$finance['total_amount']}}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                    <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="pay_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="pay_address" class="form-control" id="pay_address" placeholder="ที่อยู่" rows="5" required >{{@$finance->pay_address}}</textarea>
+                                        <label for="total_tax">รวมยอดภาษีที่นำส่งได้ทั้งสิ้น</label> <span class="required">*</span>
+                                        <input type="text" name="total_tax" class="form-control" id="total_tax" placeholder="รวมยอดภาษีที่นำส่งได้ทั้งสิ้น" value="{{@$finance['total_tax']}}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="awb_no">AWB No.</label> <span class="required">*</span>
-                                        <input type="text" name="awb_no" class="form-control" id="awb_no" placeholder="AWB No." value="{{@$finance->awb_no}}" required>
+                                        <label for="extra_money">เงินเพิ่ม(ถ้ามี)</label>
+                                        <input type="text" name="extra_money" class="form-control" id="extra_money" placeholder="เงินเพิ่ม(ถ้ามี)" value="{{@$finance['extra_money']}}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="number">ลำดับที่</label> <span class="required">*</span>
-                                        <input type="text" name="number" class="form-control" id="number" placeholder="ลำดับที่" value="{{@$finance->number}}" required>
+                                        <label for="total_tax_delivered">รวมยอดภาษีที่นำส่งได้ทั้งสิ้น และเงินเพิ่ม (2. + 3.)</label> <span class="required">*</span>
+                                        <input type="text" name="total_tax_delivered" class="form-control" id="total_tax_delivered" placeholder="รวมยอดภาษีที่นำส่งได้ทั้งสิ้น และเงินเพิ่ม (2. + 3.)" value="{{@$finance['total_tax_delivered']}}" required>
                                     </div>
                                 </div>
                             </div>
                     </div>
-                </div>                        
-                <div class="card">
-                    <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <h4 class="card-title">ประเภทเงินได้ที่จ่าย</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_current">วัน เดือน หรือ ปีภาษีที่จ่าย</label> <span class="required">*</span>
-                                        <input type="text" name="date_current" class="form-control" id="date_current" placeholder="วัน เดือน หรือ ปีภาษีที่จ่าย" value="{{@$finance->date_current}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="pay_price">จำนวนเงินที่จ่าย</label> <span class="required">*</span>
-                                        <input type="number" name="pay_price" class="form-control" id="pay_price" oninput="payPrice(this.value)" pattern="(d{3})([.])(d{2})" placeholder="จำนวนเงินที่จ่าย" value="{{@$finance->pay_price}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="pay_tax">ภาษีที่หักและนำส่งไว้</label> <span class="required">*</span><span style="color: coral"> (หักจากจำนวนที่จ่าย 3 %)</span>
-                                        <input type="number" name="pay_tax" class="form-control" id="pay_tax" placeholder="ภาษีที่หักและนำส่งไว้" value="{{@$finance->pay_tax}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="pay_tax_text">รวมเงินภาษีที่หักนำส่ง</label> <span class="required">*</span><span style="color: coral"> (ตัวอักษร)</span>
-                                        <input type="text" name="pay_tax_text" class="form-control" id="pay_tax_text" placeholder="รวมเงินภาษีที่หักนำส่ง" value="{{@$finance->pay_tax_text}}" required>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>                            
+                </div>                          
                 <div class="col-sm-12">
                     <div class="form-group">
                         <button class="btn btn-primary">Save</button>
@@ -179,10 +226,54 @@
 @endsection
 @section('script')
 <script>
+    document.getElementById("financeForm").addEventListener("submit", function(event){
+            event.preventDefault()
+        var form = $(this);
+        $.ajax({
+            type: "POST",
+            url: form.attr('action')+'/ajax',
+            data:form.serialize(),
+            success: function( result ) {
+                $('#financeId').val(result);
+                document.getElementById("financeForm").submit();
+                window.location.href = "{{url($page_url)}}";
+            },
+            error: function (error) {
+                alert('โปรดตรวจสอบความถูกต้อง');
+            }
+
+        });
+    });
+
+    function customerChange(id){
+        console.log(id);
+        $.ajax({
+            type: "GET",
+            url: '{{url("$page_url/customer")}}/'+id,
+            success: function( result ) {
+                $('#deduct_tax_identification').val(result.companyTaxNo);
+                $('#deduct_name').val(result.companyName);
+                $('#address_street').val(result.streetAndNumber);
+                $('#address_subdistrict').val(result.district);
+                $('#address_district').val(result.subProvince);
+                $('#address_province').val(result.province);
+                $('#address_zipcode').val(result.postCode);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
     function payPrice(value){
-        var d = (value*0.3).toFixed(2);
+        var d = (value*0.03).toFixed(2);
         var thaibath = ArabicNumberToText(d);
         $('#pay_tax').val(d);
+        $('#pay_tax_text').val(thaibath);
+        // $('#pay_price').val(value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
+    }
+    function payTax(value){
+        var d = value;
+        var thaibath = ArabicNumberToText(d);
         $('#pay_tax_text').val(thaibath);
         // $('#pay_price').val(value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
     }
@@ -202,11 +293,17 @@
             }
 </script>
         <!-- plugin js -->
+        <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
         <script src="{{ URL::asset('assets/js/thaibath.js')}}" type="text/javascript" charset="utf-8"></script>
+        <script src="{{ URL::asset('assets/libs/select2/js/select2.min.js')}}"></script>
 
         <script src="{{ URL::asset('assets/js/pages/form-repeater.int.js')}}"></script>
         <script src="{{ URL::asset('assets/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-validation.init.js')}}"></script>
         <script src="{{ URL::asset('assets/libs/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
         <script src="{{ URL::asset('assets/js/pages/form-element.init.js')}}"></script>
+        <script src="{{ URL::asset('assets/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/js/pages/form-advanced.init.js')}}"></script>
 @endsection

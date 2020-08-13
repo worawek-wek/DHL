@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post('{id}/update', 'ShippingController@update');
             Route::post('select_product', 'ShippingController@select_product');
             Route::get('excel/{id}', 'ShippingController@excelShipping');
+            Route::get('pdf/{id}', 'ShippingController@pdfShipping');
             Route::get('customer/{id}', 'ShippingController@firstCustomer');
             Route::get('indexPDF/{id}', 'ShippingController@indexPDF');
         });
@@ -41,6 +42,9 @@ Route::group(['middleware' => ['auth']], function(){
             Route::get('/', 'FinanceController@index');
             Route::get('/create', 'FinanceController@create');
             Route::get('/{id}/edit', 'FinanceController@edit');
+            Route::post('/', 'FinanceController@store');
+            Route::post('/ajax', 'FinanceController@storeAjax');
+            Route::post('{id}/update/ajax', 'FinanceController@updateAjax');
             Route::post('/{id}', 'FinanceController@store');
             Route::post('{id}/update', 'FinanceController@update');
             Route::post('select_product', 'FinanceController@select_product');

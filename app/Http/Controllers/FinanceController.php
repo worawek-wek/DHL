@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Finance;
+use App\Customer;
 
 DB::beginTransaction();
 class FinanceController extends Controller
@@ -18,14 +19,14 @@ class FinanceController extends Controller
     {
         $data['page'] = 'การเงิน';
         $data['page_url'] = 'finance';
-        // $results = Finance::orderBy('id','DESC')->paginate(10);
+        $results = Finance::orderBy('id','DESC')->paginate(10);
 
-        // $data['list_data'] = $results->appends(request()->query());
-        // $data['query'] = request()->query();
+        $data['list_data'] = $results->appends(request()->query());
+        $data['query'] = request()->query();
 
-        // $dataPaginate = $results->toArray();
+        $dataPaginate = $results->toArray();
 
-        // $data['num'] = $dataPaginate['from'];
+        $data['num'] = $dataPaginate['from'];
         return view('finance/index',$data);
         //
     }
@@ -42,6 +43,7 @@ class FinanceController extends Controller
         $data['page_url'] = 'finance';
         $data['action'] = '/finance';
         $data['method'] = "POST";
+        $data['customer'] = Customer::get();
         return view('finance/add',$data);
         //
     }
@@ -55,27 +57,42 @@ class FinanceController extends Controller
     public function store(Request $request)
     {
         try{
-            $product = new Finance;
-            $product->deduct_tax_identification = $request->deduct_tax_identification;
-            $product->deduct_name = $request->deduct_name;
-            $product->deduct_address = $request->deduct_address;
-            $product->represent_tax_identification = $request->represent_tax_identification;
-            $product->represent_name = $request->represent_name;
-            $product->represent_address = $request->represent_address;
-            $product->pay_tax_identification = $request->pay_tax_identification;
-            $product->pay_name = $request->pay_name;
-            $product->pay_address = $request->pay_address;
-            $product->awb_no = $request->awb_no;
-            $product->number = $request->number;
-            $product->date_current = $request->date_current;
-            $product->pay_price = $request->pay_price;
-            $product->pay_tax = $request->pay_tax;
-            $product->pay_tax_text = $request->pay_tax_text;
-            $product->who_pay = '$request->who_pay';
-            $product->save();
 
             DB::commit();
             return redirect('finance')->with('message', 'Insert product "'.$request->deduct_name.'" success');
+        } catch (QueryException $err) {
+            DB::rollBack();
+        }
+    }
+    public function storeAjax(Request $request)
+    {
+        try{
+            $finance = new Finance;
+            $finance->deduct_tax_identification = $request->deduct_tax_identification;
+            $finance->deduct_name = $request->deduct_name;
+            $finance->address_number = $request->address_number;
+            $finance->address_moo = $request->address_moo;
+            $finance->address_alley = $request->address_alley;
+            $finance->address_street = $request->address_street;
+            $finance->address_subdistrict = $request->address_subdistrict;
+            $finance->address_district = $request->address_district;
+            $finance->address_province = $request->address_province;
+            $finance->address_zipcode = $request->address_zipcode;
+            $finance->phone = $request->phone;
+            $finance->month_pay = $request->month_pay;
+            $finance->year_pay = $request->year_pay;
+            $finance->attachment = $request->attachment;
+            $finance->media = $request->media;
+            $finance->qty_case = $request->qty_case;
+            $finance->qty_sheet = $request->qty_sheet;
+            $finance->total_amount = $request->total_amount;
+            $finance->total_tax = $request->total_tax;
+            $finance->extra_money = $request->extra_money;
+            $finance->total_tax_delivered = $request->total_tax_delivered;
+            $finance->save();
+
+            DB::commit();
+            return response($finance->id);
         } catch (QueryException $err) {
             DB::rollBack();
         }
@@ -106,6 +123,7 @@ class FinanceController extends Controller
         $data['action'] = "/finance/$id/update";
         $data['method'] = "PUT";
         
+        $data['customer'] = Customer::get();
         $data['finance'] = Finance::find($id);
 
         return view('finance/add',$data);
@@ -121,27 +139,42 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $product = Finance::find($id);
-            $product->deduct_tax_identification = $request->deduct_tax_identification;
-            $product->deduct_name = $request->deduct_name;
-            $product->deduct_address = $request->deduct_address;
-            $product->represent_tax_identification = $request->represent_tax_identification;
-            $product->represent_name = $request->represent_name;
-            $product->represent_address = $request->represent_address;
-            $product->pay_tax_identification = $request->pay_tax_identification;
-            $product->pay_name = $request->pay_name;
-            $product->pay_address = $request->pay_address;
-            $product->awb_no = $request->awb_no;
-            $product->number = $request->number;
-            $product->date_current = $request->date_current;
-            $product->pay_price = $request->pay_price;
-            $product->pay_tax = $request->pay_tax;
-            $product->pay_tax_text = $request->pay_tax_text;
-            $product->who_pay = '$request->who_pay';
-            $product->save();
 
             DB::commit();
             return redirect('finance')->with('message', 'Insert product "'.$request->deduct_name.'" success');
+        } catch (QueryException $err) {
+            DB::rollBack();
+        }
+    }
+    public function updateAjax(Request $request, $id)
+    {
+        try{
+            $finance = Finance::find($id);
+            $finance->deduct_tax_identification = $request->deduct_tax_identification;
+            $finance->deduct_name = $request->deduct_name;
+            $finance->address_number = $request->address_number;
+            $finance->address_moo = $request->address_moo;
+            $finance->address_alley = $request->address_alley;
+            $finance->address_street = $request->address_street;
+            $finance->address_subdistrict = $request->address_subdistrict;
+            $finance->address_district = $request->address_district;
+            $finance->address_province = $request->address_province;
+            $finance->address_zipcode = $request->address_zipcode;
+            $finance->phone = $request->phone;
+            $finance->month_pay = $request->month_pay;
+            $finance->year_pay = $request->year_pay;
+            $finance->attachment = $request->attachment;
+            $finance->media = $request->media;
+            $finance->qty_case = $request->qty_case;
+            $finance->qty_sheet = $request->qty_sheet;
+            $finance->total_amount = $request->total_amount;
+            $finance->total_tax = $request->total_tax;
+            $finance->extra_money = $request->extra_money;
+            $finance->total_tax_delivered = $request->total_tax_delivered;
+            $finance->save();
+
+            DB::commit();
+            return response($id);
         } catch (QueryException $err) {
             DB::rollBack();
         }

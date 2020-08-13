@@ -52,26 +52,52 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-sm-9">
+                        <div class="col-sm-2">
+                            <div class="text-sm-left">
+                                <a href="{{$page_url}}/create" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่มรายการ</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
                             <form method="GET" action="{{@$page_url}}">
-                                <div class="col-sm-3 search-box mb-2 d-inline-block">
+                                <div class="col-sm-3 mb-2 d-inline-block">
                                     <div class="position-relative">
-                                        <input type="search" class="form-control" name="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร..." value="{{@$query['deduct_tax_identification']}}">
+                                        <input type="search" class="form-control" name="deduct_tax_identification" placeholder="Consignee Tax ID..." value="{{@$query['deduct_tax_identification']}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-3 mb-2 d-inline-block">
-                                        <button style="background-color: #556ee6; color:white" class="btn btn-rounded waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
+                                    <div class="position-relative">
+                                        <input type="search" class="form-control" name="awb_no" placeholder="HAWB..." value="{{@$query['awb_no']}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-2 d-inline-block">
+                                    <div class="position-relative">
+                                        <input type="date" class="form-control" name="updated_at" placeholder="Update Date..." value="{{@$query['updated_at']}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-2 d-inline-block">
+                                    <div class="position-relative">
+                                        <input type="search" class="form-control" name="dec_no" placeholder="Dec No..." value="{{@$query['dec_no']}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-2 d-inline-block">
+                                    <div class="position-relative">
+                                        <input type="search" class="form-control" name="deduct_name" placeholder="Consignee..." value="{{@$query['deduct_name']}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-2 d-inline-block">
+                                    <div class="position-relative">
+                                        <input type="date" class="form-control" name="created_at" placeholder="Create Date..." value="{{@$query['created_at']}}">
+                                    </div>
+                                </div>
+                                <div style="float: right" class="col-sm-2 text-sm-right">
+                                        <button style="background-color: #556ee6; color:white" class="btn waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
                                 </div>
                             </form>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="text-sm-right">
-                                <a href="{{$page_url}}/create" class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่ม {{$page}}</a>
-                            </div>
                         </div><!-- end col-->
                         <div class="col-sm-12 btnDeleteAll" style="display: none">
                             <div class="text-sm-right">
-                            <button onclick="excel()" type="button" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-microsoft-excel"></i> Excel</button>
+                            <button onclick="pdf()" type="button" class="btn btn-dark waves-effect waves-light"><i class="far fa-file-pdf"></i> PDF 50 TW</button>
+                            <button onclick="excel()" type="button" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-microsoft-excel"></i> Excel</button> &nbsp; &nbsp;
                             </div>
                         </div><!-- end col-->
                     </div>
@@ -80,16 +106,16 @@
                         <table class="table table-centered table-nowrap">
                             <thead class="thead-light">
                                 <tr align="center">
-                                    <th style="width: 20px;">
+                                    <th>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" onchange="checkAll(this)" class="custom-control-input" id="customCheckAll">
                                             <label class="custom-control-label" for="customCheckAll">&nbsp;</label>
                                         </div>
                                     </th>
                                     <th>#</th>
-                                    <th width='15%'>เลขประจำตัวผู้เสียภาษีอากร</th>
-                                    <th width='25%'>ชื่อ</th>
-                                    <th width='25%'>ที่อยู่</th>
+                                    <th>เลข ฯ ผู้เสียภาษีอากร</th>
+                                    <th>ชื่อ</th>
+                                    <th>ที่อยู่</th>
                                     <th>สร้าง</th>
                                     <th>แก้ไข</th>
                                     <th>ดำเนินการ</th>
@@ -108,12 +134,12 @@
                                     <td>{{$num++}}</td>
                                     <td>{{$value->deduct_tax_identification}}</td>
                                     <td>{{$value->deduct_name}}</td>
-                                    <td>@empty(!$value->deduct_address){{iconv_substr($value->deduct_address, 0, 35, "UTF-8")}}...  @endempty</td>
+                                    <td>@empty(!$value->deduct_address){{iconv_substr($value->deduct_address, 0, 20, "UTF-8")}}...  @endempty</td>
                                     <td>
-                                        {{$value->created_at}}
+                                        {{date('d/m/Y H:i:s',strtotime($value->created_at))}}
                                     </td>
                                     <td>
-                                        {{$value->updated_at}}
+                                        {{date('d/m/Y H:i:s',strtotime($value->updated_at))}}
                                     </td>
                                     <td>
                                         <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
@@ -149,6 +175,17 @@
                     }
                 });
         window.location.href = "{{url('shipping/excel')}}/"+id;
+    }
+    function pdf(){
+        var id = [];
+                $('.checkId').each(function() {
+                    if($(this).is(':checked')){
+                        var v = $(this).val();
+                        id.push(v);
+                    }
+                });
+        // window.location.href = "{{url('shipping/excel')}}/"+id;
+        window.open("{{url('shipping/pdf')}}/"+id, '_blank')
     }
 </script>
         <!-- Magnific Popup-->

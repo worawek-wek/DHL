@@ -43,7 +43,8 @@
             <form id="shippingForm" action="{{$action}}" target="_blank" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary">Save</button> &nbsp; &nbsp;
+                    <a type="button" href="{{url($page_url)}}" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
                 <div class="card">
@@ -82,113 +83,17 @@
                                         <textarea name="deduct_address" class="form-control" id="deduct_address" placeholder="ที่อยู่" rows="5" required>{{@$shipping['deduct_address']}}</textarea>
                                     </div>
                                 </div>
-                            </div>
-                    </div>
-                </div>        
-                <div class="card">
-                    <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <h4 class="card-title">การกระทำการแทน</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="represent_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
-                                        <input type="text" name="represent_tax_identification" class="form-control" id="represent_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$shipping['represent_tax_identification']}}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="represent_name">โดยตัวแทน</label> <span class="required">*</span>
-                                        <input type="text" name="represent_name" class="form-control" id="represent_name" placeholder="โดยตัวแทน" value="{{@$shipping['represent_name']}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="represent_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="represent_address" class="form-control" id="represent_address" placeholder="ที่อยู่" rows="5"  required>{{@$shipping['represent_address']}}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>                               
-                <div class="card">
-                    <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <h4 class="card-title">ผู้ถูกหักภาษี ณ ที่จ่าย</h4>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="pay_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
-                                        <input type="text" name="pay_tax_identification" class="form-control" id="pay_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$shipping['pay_tax_identification']}}" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="pay_name">ชื่อ</label> <span class="required">*</span>
-                                        <input type="text" name="pay_name" class="form-control" id="pay_name" placeholder="ชื่อ" value="{{@$shipping['pay_name']}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="pay_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="pay_address" class="form-control" id="pay_address" placeholder="ที่อยู่" rows="5" required >{{@$shipping['pay_address']}}</textarea>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="awb_no">AWB No.</label> <span class="required">*</span>
                                         <input type="text" name="awb_no" class="form-control" id="awb_no" placeholder="AWB No." value="{{@$shipping['awb_no']}}" required>
                                     </div>
                                 </div>
-                                    <div class="col-md-9">
-                                    <label>ลำดับที่</label> <span class="required">*</span>
-                                    <div style="margin: 0 15px;" class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number1" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number1">(1) ภ.ง.ด. 1ก.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number2" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number2">(2) ภ.ง.ด. 1ก. พิเศษ</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number3" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number3">(3) ภ.ง.ด. 2</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number4" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number4">(4) ภ.ง.ด. 3</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number5" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number5">(5) ภ.ง.ด. 2ก.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number6" value="{{@$shipping['number']}}" required>
-                                                <label class="form-check-label" for="number6">(6) ภ.ง.ด. 3ก.</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                                <input type="radio" name="number" class="form-check-input" id="number7" value="{{@$shipping['number']}}" checked required>
-                                                <label class="form-check-label" for="number7">(7) ภ.ง.ด. 53</label>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
                             </div>
                     </div>
-                </div>                        
+                </div>               
                 <div class="card">
                     <div class="card-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <h4 class="card-title">ประเภทเงินได้ที่จ่าย</h4>
                             <div class="row">
                                 <div class="col-md-6">
@@ -223,11 +128,106 @@
                                 </div>
                             </div>
                     </div>
-                </div>                            
+                </div>                 
+                
+                <div class="card">
+                    <div class="card-body">
+                            <h4 class="card-title" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">การกระทำการแทน&nbsp; <i class="bx bx-chevron-down"></i></h4>
+                            <div class="row collapse" id="collapseExample">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="represent_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="represent_tax_identification" class="form-control" id="represent_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$shipping['represent_tax_identification']}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="represent_name">โดยตัวแทน</label> <span class="required">*</span>
+                                        <input type="text" name="represent_name" class="form-control" id="represent_name" placeholder="โดยตัวแทน" value="{{@$shipping['represent_name']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="represent_address">ที่อยู่</label> <span class="required">*</span>
+                                        <textarea name="represent_address" class="form-control" id="represent_address" placeholder="ที่อยู่" rows="5"  required>{{@$shipping['represent_address']}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>                           
+                <div class="card">
+                    <div class="card-body">
+                            <h4 class="card-title" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">ผู้ถูกหักภาษี ณ ที่จ่าย&nbsp; <i class="bx bx-chevron-down"></i></h4>
+                            <div class="row collapse" id="collapseExample2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pay_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
+                                        <input type="text" name="pay_tax_identification" class="form-control" id="pay_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$shipping['pay_tax_identification']}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pay_name">ชื่อ</label> <span class="required">*</span>
+                                        <input type="text" name="pay_name" class="form-control" id="pay_name" placeholder="ชื่อ" value="{{@$shipping['pay_name']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pay_address">ที่อยู่</label> <span class="required">*</span>
+                                        <textarea name="pay_address" class="form-control" id="pay_address" placeholder="ที่อยู่" rows="5" required >{{@$shipping['pay_address']}}</textarea>
+                                    </div>
+                                </div>
+                                    <div class="col-md-9">
+                                    <label>ลำดับที่</label> <span class="required">*</span>
+                                    <div style="margin: 0 15px;" class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number1" value="1" required>
+                                                <label class="form-check-label" for="number1">(1) ภ.ง.ด. 1ก.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number2" value="2" required>
+                                                <label class="form-check-label" for="number2">(2) ภ.ง.ด. 1ก. พิเศษ</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number3" value="3" required>
+                                                <label class="form-check-label" for="number3">(3) ภ.ง.ด. 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number4" value="4" required>
+                                                <label class="form-check-label" for="number4">(4) ภ.ง.ด. 3</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number5" value="5" required>
+                                                <label class="form-check-label" for="number5">(5) ภ.ง.ด. 2ก.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number6" value="6" required>
+                                                <label class="form-check-label" for="number6">(6) ภ.ง.ด. 3ก.</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                                <input type="radio" name="number" class="form-check-input" id="number7" value="7" checked required>
+                                                <label class="form-check-label" for="number7">(7) ภ.ง.ด. 53</label>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>                                
                 <div class="col-sm-12">
                     <div class="form-group">
                         <button class="btn btn-primary">Save</button>
-                    </div>
+                        <a type="button" href="{{url($page_url)}}" class="btn btn-danger">Cancel</a>
+                </div>
                 </div>
         </form>
 

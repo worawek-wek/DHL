@@ -11,13 +11,14 @@
                         {{-- <img src="assets/images/logo-dark.png" alt="" height="17"> --}}
                     </span>
                 </a>
-
-                <a href="index" class="logo logo-light">
+                <a class="logo logo-light">
                     <span class="logo-sm">
                         {{-- <img src="assets/images/logo-light.svg" alt="" height="22"> --}}
                     </span>
                     <span class="logo-lg">
                         {{-- <img src="assets/images/logo-light.png" alt="" height="19"> --}}
+                    <i style="font-size: 48px; vertical-align: middle;" class="bx bxs-user-circle"></i>
+                        
                     </span>
                 </a>
             </div>
@@ -31,31 +32,32 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{-- <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" --}}
-                        {{-- alt="Header Avatar"> --}}
-                    <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
-                    <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <!-- item-->
-                    <a class="dropdown-item" href="contacts-profile"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                        <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> 
-                        {{ __('Logout') }}
-                    </a>
+        <img width="150" src="{{ URL::asset('logo/dhl-logo.svg') }}" alt="">
 
-                    {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form> --}}
-                </div>
+        <div class="dropdown d-inline-block">
+            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{-- <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg" --}}
+                    {{-- alt="Header Avatar"> --}}
+                <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
+                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <!-- item-->
+                <a class="dropdown-item" href="contacts-profile"><i class="bx bx-user font-size-16 align-middle mr-1"></i> Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                    <i class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> 
+                    {{ __('Logout') }}
+                </a>
+
+                {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form> --}}
             </div>
-
+        </div>
             
             {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('logout') }}"

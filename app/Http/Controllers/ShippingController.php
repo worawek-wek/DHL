@@ -21,11 +21,26 @@ class ShippingController extends Controller
      */
     public function index(Request $request)
     {
-        $data['page'] = 'การส่งสินค้า';
+        $data['page'] = 'รายการย้ายคลัง';
         $data['page_url'] = 'shipping';
         $results = Shipping::orderBy('id','DESC');
         if(!is_null($request->deduct_tax_identification)){
-            $results = $results->where('deduct_tax_identification',$request->deduct_tax_identification);
+            $results = $results->Where('deduct_tax_identification','LIKE','%'.$request->deduct_tax_identification.'%');
+        }
+        if(!is_null($request->awb_no)){
+            $results = $results->Where('awb_no','LIKE','%'.$request->awb_no.'%');
+        }
+        if(!is_null($request->updated_at)){
+            $results = $results->Where('updated_at','LIKE',$request->updated_at.'%');
+        }
+        if(!is_null($request->dec_no)){
+            $results = $results->Where('dec_no','LIKE','%'.$request->dec_no.'%');
+        }
+        if(!is_null($request->deduct_name)){
+            $results = $results->Where('deduct_name','LIKE','%'.$request->deduct_name.'%');
+        }
+        if(!is_null($request->created_at)){
+            $results = $results->Where('created_at','LIKE',$request->created_at.'%');
         }
         $results = $results->paginate(10);
         $data['list_data'] = $results->appends(request()->query());
@@ -84,6 +99,20 @@ class ShippingController extends Controller
         $writer->save('excel/helloworld.xlsx');
         return redirect('excel/helloworld.xlsx');
     }
+    public function pdfShipping($id){  
+        $results = Shipping::whereIn('id', explode(',',$id))->orderBy('id','DESC')->get();
+        
+        $mpdf = new \Mpdf\Mpdf([
+            'default_font_size' => 16,
+            'default_font' => 'sarabun'
+        ]);
+
+        foreach($results as $row){
+
+            $mpdf = PDFController::AWB($row, $mpdf);
+        }
+        $mpdf->Output();
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -128,7 +157,9 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        PDFController::AWB($request);
+        $mpdf = PDFController::AWB($request);
+        $mpdf->Output();
+
     }
     public function storeAjax(Request $request)
     {
@@ -200,12 +231,14 @@ class ShippingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return PDFController::AWB($request);
+        $mpdf = PDFController::AWB($request);
+        $mpdf->Output();
     }
     public function indexPDF($id)
     {
         $product = Shipping::find($id);
-        return PDFController::AWB($product);
+        $mpdf = PDFController::AWB($product);
+        $mpdf->Output();
     }
     public function updateAjax(Request $request, $id)
     {

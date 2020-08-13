@@ -11,12 +11,14 @@ class PDFController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public static function AWB($data)
+    public static function AWB($data, $mpdf = null)
     {
-        $mpdf = new \Mpdf\Mpdf([
-            'default_font_size' => 16,
-            'default_font' => 'sarabun'
-        ]);
+        if(is_null($mpdf)){
+            $mpdf = new \Mpdf\Mpdf([
+                'default_font_size' => 16,
+                'default_font' => 'sarabun'
+            ]);
+        }
         // return explode('',$data->deduct_tax_identification);
         $output = '
                 <style>
@@ -244,7 +246,7 @@ class PDFController extends Controller
         $mpdf->debug = true;
         $mpdf->AddPage();
         $mpdf->WriteHTML($output);
-        $mpdf->Output();
+        return $mpdf;
     }
 
 }
