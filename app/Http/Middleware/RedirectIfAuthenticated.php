@@ -33,7 +33,7 @@ class RedirectIfAuthenticated
     
             } else if(auth()->user()->isBilling()) {
     
-                return redirect('biliing');
+                return redirect('shipping');
     
             }
         }

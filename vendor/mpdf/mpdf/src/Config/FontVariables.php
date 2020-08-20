@@ -101,6 +101,9 @@ class FontVariables
 					'useOTL' => 0x00,
 					'useKashida' => 75,
 			   ],
+			   "fontawesome" => [
+					'R' => "fontawesome-webfont.ttf",
+			   ],
 				"dejavusanscondensed" => [
 					'R' => "DejaVuSansCondensed.ttf",
 					'B' => "DejaVuSansCondensed-Bold.ttf",

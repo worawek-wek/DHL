@@ -157,8 +157,8 @@ class ShippingController extends Controller
      */
     public function store(Request $request)
     {
-        $mpdf = PDFController::AWB($request);
-        $mpdf->Output();
+        $mpdf = PDFController::AWB($request)->Output();
+        
 
     }
     public function storeAjax(Request $request)
@@ -167,7 +167,7 @@ class ShippingController extends Controller
             $product = new Shipping;
             $product->deduct_tax_identification = $request->deduct_tax_identification;
             $product->deduct_name = $request->deduct_name;
-            $product->deduct_address = $request->deduct_address;
+            // $product->deduct_address = $request->deduct_address;
             $product->represent_tax_identification = $request->represent_tax_identification;
             $product->represent_name = $request->represent_name;
             $product->represent_address = $request->represent_address;
@@ -182,6 +182,15 @@ class ShippingController extends Controller
             $product->pay_tax_text = $request->pay_tax_text;
             $product->who_pay = '$request->who_pay';
             $product->ref_customer_id = $request->customer_id;
+            $product->address_number = $request->address_number;
+            $product->address_moo = $request->address_moo;
+            $product->address_alley = $request->address_alley;
+            $product->address_street = $request->address_street;
+            $product->address_subdistrict = $request->address_subdistrict;
+            $product->address_district = $request->address_district;
+            $product->address_province = $request->address_province;
+            $product->address_zipcode = $request->address_zipcode;
+            $product->phone = $request->phone;
             $product->save();
 
             DB::commit();
@@ -231,14 +240,14 @@ class ShippingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mpdf = PDFController::AWB($request);
-        $mpdf->Output();
+        $mpdf = PDFController::AWB($request)->Output();
+        
     }
     public function indexPDF($id)
     {
         $product = Shipping::find($id);
-        $mpdf = PDFController::AWB($product);
-        $mpdf->Output();
+        $mpdf = PDFController::AWB($product)->Output();
+        
     }
     public function updateAjax(Request $request, $id)
     {
@@ -246,7 +255,7 @@ class ShippingController extends Controller
             $product = Shipping::find($id);
             $product->deduct_tax_identification = $request->deduct_tax_identification;
             $product->deduct_name = $request->deduct_name;
-            $product->deduct_address = $request->deduct_address;
+            // $product->deduct_address = $request->deduct_address;
             $product->represent_tax_identification = $request->represent_tax_identification;
             $product->represent_name = $request->represent_name;
             $product->represent_address = $request->represent_address;
@@ -261,6 +270,15 @@ class ShippingController extends Controller
             $product->pay_tax_text = $request->pay_tax_text;
             $product->who_pay = '$request->who_pay';
             $product->ref_customer_id = $request->customer_id;
+            $product->address_number = $request->address_number;
+            $product->address_moo = $request->address_moo;
+            $product->address_alley = $request->address_alley;
+            $product->address_street = $request->address_street;
+            $product->address_subdistrict = $request->address_subdistrict;
+            $product->address_district = $request->address_district;
+            $product->address_province = $request->address_province;
+            $product->address_zipcode = $request->address_zipcode;
+            $product->phone = $request->phone;
             $product->save();
 
             DB::commit();

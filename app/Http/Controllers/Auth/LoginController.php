@@ -43,7 +43,7 @@ class LoginController extends Controller
 
         } else if(auth()->user()->isBilling()) {
 
-            return '/biliing';
+            return '/shipping';
 
         }
     }

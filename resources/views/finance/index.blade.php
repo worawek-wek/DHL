@@ -22,6 +22,7 @@
 @section('css') 
 
 <!-- Lightbox css -->
+<link href="{{ URL::asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/libs/magnific-popup/magnific-popup.css')}}">
 
 @endsection
@@ -52,26 +53,42 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-sm-9">
-                            <form method="GET" action="{{@$page_url}}">
-                                <div class="col-sm-3 search-box mb-2 d-inline-block">
-                                    <div class="position-relative">
-                                        <input type="search" class="form-control" name="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร..." value="{{@$query['deduct_tax_identification']}}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 mb-2 d-inline-block">
-                                        <button style="background-color: #556ee6; color:white" class="btn btn-rounded waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="text-sm-right">
-                                <a href="{{$page_url}}/create" class="btn btn-success btn-rounded waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่ม {{$page}}</a>
+                        {{-- @if (!Auth::user()->isBilling())
+                        <div class="col-sm-2">
+                            <div class="text-sm-left">
+                                <a href="{{$page_url}}/create" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่มรายการ</a>
                             </div>
+                        </div>
+                        @endif --}}
+                        <div class="col-sm-12">
+                            <form method="GET" action="{{@$page_url}}">
+                                    <div class="col-sm-3 mb-2 d-inline-block">
+                                        <div class="position-relative">
+                                            <input type="search" class="form-control" name="deduct_tax_identification" placeholder="Consignee Tax ID..." value="{{@$query['deduct_tax_identification']}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 mb-2 d-inline-block">
+                                        <div class="position-relative">
+                                            <input type="search" class="form-control" name="deduct_name" placeholder="Consignee..." value="{{@$query['deduct_name']}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 mb-2 d-inline-block">
+                                        <div class="position-relative">
+                                        <input type="text" name="month_year" id="month_year" class="form-control" autocomplete="off" data-provide="datepicker" placeholder="เดือน" data-date-format="mm yyyy" data-date-min-view-mode="1" value="{{@$query['month_year']}}">
+                                        {{-- <input type="date" class="form-control" name="created_at" placeholder="Create Date..." value="{{@$query['created_at']}}"> --}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2 mb-2 d-inline-block">
+                                        <div class="position-relative">
+                                            <button style="background-color: #556ee6; color:white;top:-1px" class="btn waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
+                                        </div>
+                                    </div>
+                            </form>
                         </div><!-- end col-->
                         <div class="col-sm-12 btnDeleteAll" style="display: none">
                             <div class="text-sm-right">
-                            <button onclick="excel()" type="button" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-microsoft-excel"></i> Excel</button>
+                            <button onclick="pdf()" type="button" class="btn btn-dark waves-effect waves-light"><i class="far fa-file-pdf"></i> PDF 53 PND</button>
+                            {{-- <button onclick="excel()" type="button" class="btn btn-info waves-effect waves-light"><i class="mdi mdi-microsoft-excel"></i> Excel</button> --}}
                             </div>
                         </div><!-- end col-->
                     </div>
@@ -90,8 +107,7 @@
                                     <th width='15%'>เลขประจำตัวผู้เสียภาษีอากร</th>
                                     <th width='25%'>ชื่อ</th>
                                     <th width='25%'>ที่อยู่</th>
-                                    <th>สร้าง</th>
-                                    <th>แก้ไข</th>
+                                    <th>ล่าสุด</th>
                                     <th>ดำเนินการ</th>
                                 </tr>
                             </thead>
@@ -101,25 +117,26 @@
                                 <tr align="center">
                                     <td>
                                         <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input checkId" onchange="checkList()" id="customCheck{{$num}}" value="{{$value->id}}">
+                                        <input type="checkbox" class="custom-control-input checkId" onchange="checkList()" id="customCheck{{$num}}" value="{{$value->ref_customer_id}}">
                                             <label class="custom-control-label" for="customCheck{{$num}}">&nbsp;</label>
                                         </div>
                                     </td>
                                     <td>{{$num++}}</td>
                                     <td>{{$value->deduct_tax_identification}}</td>
                                     <td>{{$value->deduct_name}}</td>
-                                    <td>@empty(!$value->address_street){{iconv_substr($value->address_number.' '.$value->address_moo.' '.$value->address_alley.' '.$value->address_street.' '.$value->address_subdistrict.' '.$value->address_district.' '.$value->address_province.' '.$value->address_zipcode.' '.$value->phone, 0, 35, "UTF-8")}}...  @endempty</td>
-                                    <td>
-                                        {{$value->created_at}}
-                                    </td>
+                                    <td>@empty(!$value->address_street){{iconv_substr($value->address_number.' '.$value->address_moo.' '.$value->address_alley.' '.$value->address_street.' '.$value->address_subdistrict.' '.$value->address_district.' '.$value->address_province.' '.$value->address_zipcode.' '.$value->phone, 0, 45, "UTF-8")}}...  @endempty</td>
                                     <td>
                                         {{$value->updated_at}}
                                     </td>
                                     <td>
-                                        <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="{{$page_url}}/indexPDF/{{$value->id}}" target="_blank" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a>
-                                        {{-- <a href="javascript: void(0);" onclick="deleteFromTable({{$value->id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a> --}}
-                                    </td>
+                                    @if (!Auth::user()->isBilling())
+                                        <a href="{{$page_url}}/{{$value->ref_customer_id}}/customer" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-eye font-size-18"></i></a>
+                                    @endif
+                                    @if (@$month)
+                                        <a href="{{$page_url}}/pdf/{{$value->ref_customer_id}}/{{$month}}/{{$year}}" target="_blank" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a>
+                                        {{-- <a href="javascript: void(0);" onclick="deleteFromTable({{$value->ref_customer_id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a> --}}
+                                    @endif
+                                </td>
                                 </tr>
                                 @endforeach
                                 @include('layouts/data-notfound')
@@ -148,10 +165,30 @@
                         id.push(v);
                     }
                 });
-        window.location.href = "{{url('shipping/excel')}}/"+id;
+        window.location.href = "{{url($page_url.'/excel')}}/"+id;
+    }
+    function pdf(){
+        var id = [];
+        var searchMonth = '{{@$query['month_year']}}';
+                $('.checkId').each(function() {
+                    if($(this).is(':checked')){
+                        var v = $(this).val();
+                        id.push(v);
+                    }
+                });
+        if(searchMonth==''){
+            if(confirm('กรุณาค้นหาด้วยเดือน')==true){
+                return $('#month_year').focus();
+            }
+        }
+        var ex = searchMonth.split(" ")
+        // window.location.href = "{{url('shipping/excel')}}/"+id;
+        window.open("{{url($page_url.'/pdf')}}/"+id+"/"+ex[0]+"/"+ex[1], '_blank')
+        // window.open("{{url($page_url.'/pdf')}}/"+id, '_blank')
     }
 </script>
         <!-- Magnific Popup-->
+        <script src="{{ URL::asset('assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
         <script src="{{ URL::asset('assets/libs/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
 
         <!-- lightbox init js-->

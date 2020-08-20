@@ -43,7 +43,8 @@
             <form id="financeForm" action="{{$action}}" target="_blank" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary">Save</button> &nbsp; &nbsp;
+                        <a type="button" href="{{url($page_url)}}" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
                 <div class="card">
@@ -54,7 +55,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <select name="customer_id" onchange="customerChange(this.value)" class="form-control select2" required>
+                                        <select name="customer_id" onchange="customerChange(this.value)" class="form-control select2" @if(@$finance) disabled @endif required>
                                             <option value="">ค้นหาลูกค้า</option>
                                             @foreach ($customer as $cus)
                                                 <option value="{{$cus->id}}" @if ($cus->id==@$finance['ref_customer_id'])
@@ -79,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <h5>ที่อยู่</h5>
+                                    <h4 class="card-title">ที่อยู่</h4>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -206,10 +207,11 @@
                                 </div>
                             </div>
                     </div>
-                </div>                          
+                </div>              
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary">Save</button> &nbsp; &nbsp;
+                    <a type="button" href="{{url($page_url)}}" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
         </form>

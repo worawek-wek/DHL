@@ -17,7 +17,7 @@ class Finance
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::check() && Auth::user()->isFinance() || Auth::user()->isAdmin() ) {
+        if( Auth::check() && !Auth::user()->isShipping() ) {
             return $next($request);
         } else {
             return redirect('login');

@@ -8,7 +8,7 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" style="font-size: 15px;">เมนู</li>
-                @if (Auth::user()->isShipping() || Auth::user()->isAdmin() )
+                @if (!Auth::user()->isFinance() )
                 <li>
                     <a style="font-size: 15px;" href="/shipping" class="waves-effect">
                         <i class="bx bx-home"></i>
@@ -17,20 +17,11 @@
                     </a>
                 </li>
                 @endif
-                @if (Auth::user()->isFinance() || Auth::user()->isAdmin() )
+                @if (!Auth::user()->isShipping() )
                 <li>
                     <a style="font-size: 15px;" href="/finance" class="waves-effect">
                         <i class="bx bx-home"></i>
                         <span><b>การเงิน</b></span>
-                        {{-- Home --}}
-                    </a>
-                </li>
-                @endif
-                @if (Auth::user()->isBilling() || Auth::user()->isAdmin() )
-                <li>
-                    <a style="font-size: 15px;" href="/billing" class="waves-effect">
-                        <i class="bx bx-home"></i>
-                        <span><b>การเรียกเก็บเงิน</b></span>
                         {{-- Home --}}
                     </a>
                 </li>

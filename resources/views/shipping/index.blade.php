@@ -52,11 +52,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <div class="col-sm-2">
-                            <div class="text-sm-left">
-                                <a href="{{$page_url}}/create" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่มรายการ</a>
+                        @if (!Auth::user()->isBilling())
+                            <div class="col-sm-2">
+                                <div class="text-sm-left">
+                                    <a href="{{$page_url}}/create" class="btn btn-success waves-effect waves-light mb-2 mr-2"><i class="mdi mdi-plus mr-1"></i> เพิ่มรายการ</a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="col-sm-10">
                             <form method="GET" action="{{@$page_url}}">
                                 <div class="col-sm-3 mb-2 d-inline-block">
@@ -89,9 +91,7 @@
                                         <input type="date" class="form-control" name="created_at" placeholder="Create Date..." value="{{@$query['created_at']}}">
                                     </div>
                                 </div>
-                                <div style="float: right" class="col-sm-2 text-sm-right">
-                                        <button style="background-color: #556ee6; color:white" class="btn waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
-                                </div>
+                                        <button style="background-color: #556ee6; color:white;top:-2px" class="btn waves-effect waves-light" type="submit"><i class='bx bx-search-alt'></i>&nbsp; ค้นหา</button>
                             </form>
                         </div><!-- end col-->
                         <div class="col-sm-12 btnDeleteAll" style="display: none">
@@ -134,7 +134,7 @@
                                     <td>{{$num++}}</td>
                                     <td>{{$value->deduct_tax_identification}}</td>
                                     <td>{{$value->deduct_name}}</td>
-                                    <td>@empty(!$value->deduct_address){{iconv_substr($value->deduct_address, 0, 20, "UTF-8")}}...  @endempty</td>
+                                    <td>{{iconv_substr($value->address_number.' '.$value->address_moo.' '.$value->address_alley.' '.$value->address_street.' '.$value->address_subdistrict.' '.$value->address_district.' '.$value->address_province.' '.$value->address_zipcode.' '.$value->phone, 0, 45, "UTF-8")}}... </td>
                                     <td>
                                         {{date('d/m/Y H:i:s',strtotime($value->created_at))}}
                                     </td>
@@ -142,7 +142,9 @@
                                         {{date('d/m/Y H:i:s',strtotime($value->updated_at))}}
                                     </td>
                                     <td>
-                                        <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                        @if (!Auth::user()->isBilling())
+                                            <a href="{{$page_url}}/{{$value->id}}/edit" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                        @endif
                                         <a href="{{$page_url}}/indexPDF/{{$value->id}}" target="_blank" class="mr-3 text-defult" data-toggle="tooltip" data-placement="top" title="" data-original-title="PDF"><i class="bx bxs-file-pdf font-size-18"></i></a>
                                         {{-- <a href="javascript: void(0);" onclick="deleteFromTable({{$value->id}})" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="mdi mdi-delete font-size-18"></i></a> --}}
                                     </td>
@@ -174,7 +176,7 @@
                         id.push(v);
                     }
                 });
-        window.location.href = "{{url('shipping/excel')}}/"+id;
+        window.location.href = "{{url($page_url.'/excel')}}/"+id;
     }
     function pdf(){
         var id = [];
@@ -185,7 +187,7 @@
                     }
                 });
         // window.location.href = "{{url('shipping/excel')}}/"+id;
-        window.open("{{url('shipping/pdf')}}/"+id, '_blank')
+        window.open("{{url($page_url.'/pdf')}}/"+id, '_blank')
     }
 </script>
         <!-- Magnific Popup-->

@@ -23,14 +23,19 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::group(['middleware' => ['admin']], function(){
     Route::group(['middleware' => ['shipping']], function(){
         Route::prefix('shipping')->group(function () {
+            
             Route::get('/', 'ShippingController@index');
-            Route::get('/create', 'ShippingController@create');
-            Route::get('/{id}/edit', 'ShippingController@edit');
-            Route::post('/ajax', 'ShippingController@storeAjax');
-            Route::post('/', 'ShippingController@store');
-            Route::post('{id}/update/ajax', 'ShippingController@updateAjax');
-            Route::post('{id}/update', 'ShippingController@update');
-            Route::post('select_product', 'ShippingController@select_product');
+
+            Route::group(['middleware' => ['billing']], function(){
+                Route::get('/create', 'ShippingController@create');
+                Route::get('/{id}/edit', 'ShippingController@edit');
+                Route::post('/ajax', 'ShippingController@storeAjax');
+                Route::post('/', 'ShippingController@store');
+                Route::post('{id}/update/ajax', 'ShippingController@updateAjax');
+                Route::post('{id}/update', 'ShippingController@update');
+                Route::post('select_product', 'ShippingController@select_product');
+            });
+
             Route::get('excel/{id}', 'ShippingController@excelShipping');
             Route::get('pdf/{id}', 'ShippingController@pdfShipping');
             Route::get('customer/{id}', 'ShippingController@firstCustomer');
@@ -39,17 +44,35 @@ Route::group(['middleware' => ['auth']], function(){
     });
     Route::group(['middleware' => ['finance']], function(){
         Route::prefix('finance')->group(function () {
+
             Route::get('/', 'FinanceController@index');
-            Route::get('/create', 'FinanceController@create');
-            Route::get('/{id}/edit', 'FinanceController@edit');
-            Route::post('/', 'FinanceController@store');
-            Route::post('/ajax', 'FinanceController@storeAjax');
-            Route::post('{id}/update/ajax', 'FinanceController@updateAjax');
-            Route::post('/{id}', 'FinanceController@store');
-            Route::post('{id}/update', 'FinanceController@update');
-            Route::post('select_product', 'FinanceController@select_product');
+            Route::get('/{id}/customer', 'FinanceController@finaceByCustomer');
+
+            Route::group(['middleware' => ['billing']], function(){
+                Route::get('/create', 'FinanceController@create');
+                Route::get('/{id}/edit', 'FinanceController@edit');
+                Route::post('/', 'FinanceController@store');
+                Route::post('/ajax', 'FinanceController@storeAjax');
+                Route::post('{id}/update/ajax', 'FinanceController@updateAjax');
+                Route::post('/{id}', 'FinanceController@store');
+                Route::post('{id}/update', 'FinanceController@update');
+                Route::post('select_product', 'FinanceController@select_product');
+            });
+
+            Route::get('excel/{id}', 'FinanceController@excelFinance');
+            Route::get('pdf/{id}/{month}/{year}', 'FinanceController@pdfFinance');
+            Route::get('customer/{id}', 'FinanceController@firstCustomer');
+            Route::get('indexPDF/{id}', 'FinanceController@indexPDF');
         });
     });
+    // Route::group(['middleware' => ['billing']], function(){
+        Route::prefix('billing')->group(function () {
+            Route::get('/', 'BillingController@index');
+            Route::get('excel/{id}', 'BillingController@excelShipping');
+            Route::get('pdf/{id}', 'ShippingController@pdfBilling');
+            Route::get('indexPDF/{id}', 'BillingController@indexPDF');
+        });
+    // });
 });
 // Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/pdf', 'PDFController@index');
+Route::get('/pdf', 'PDFController@PND53');

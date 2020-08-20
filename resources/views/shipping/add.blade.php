@@ -40,7 +40,7 @@
 
     <div class="row">
         <div class="col-12">
-            <form id="shippingForm" action="{{$action}}" target="_blank" method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
+            <form id="shippingForm" action="{{$action}}" @if($page_url == 'shipping') target="_blank" @endif method="post" class="needs-validation outer-repeater" novalidate="" enctype="multipart/form-data">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <button class="btn btn-primary">Save</button> &nbsp; &nbsp;
@@ -72,18 +72,70 @@
                                         <label for="deduct_tax_identification">เลขประจำตัวผู้เสียภาษีอากร</label> <span class="required">*</span>
                                         <input type="text" name="deduct_tax_identification" class="form-control" id="deduct_tax_identification" placeholder="เลขประจำตัวผู้เสียภาษีอากร" value="{{@$shipping['deduct_tax_identification']}}" required>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="deduct_name">ชื่อ</label> <span class="required">*</span>
                                         <input type="text" name="deduct_name" class="form-control" id="deduct_name" placeholder="ชื่อ" value="{{@$shipping['deduct_name']}}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="deduct_address">ที่อยู่</label> <span class="required">*</span>
-                                        <textarea name="deduct_address" class="form-control" id="deduct_address" placeholder="ที่อยู่" rows="5" required>{{@$shipping['deduct_address']}}</textarea>
+                                        <label for="address_number">เลขที่</label>
+                                        <input type="text" name="address_number" class="form-control" id="address_number" placeholder="เลขที่" value="{{@$shipping['address_number']}}">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_moo">หมู่ที่</label>
+                                        <input type="text" name="address_moo" class="form-control" id="address_moo" placeholder="หมู่ที่" value="{{@$shipping['address_moo']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_alley">ตรอก/ซอย</label>
+                                        <input type="text" name="address_alley" class="form-control" id="address_alley" placeholder="ตรอก/ซอย" value="{{@$shipping['address_alley']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_street">ถนน</label> <span class="required">*</span>
+                                        <input type="text" name="address_street" class="form-control" id="address_street" placeholder="ถนน" value="{{@$shipping['address_street']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_subdistrict">ตำบล</label> <span class="required">*</span>
+                                        <input type="text" name="address_subdistrict" class="form-control" id="address_subdistrict" placeholder="ตำบล" value="{{@$shipping['address_subdistrict']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_district">อำเภอ/เขต</label> <span class="required">*</span>
+                                        <input type="text" name="address_district" class="form-control" id="address_district" placeholder="อำเภอ/เขต" value="{{@$shipping['address_district']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_province">จังหวัด</label> <span class="required">*</span>
+                                        <input type="text" name="address_province" class="form-control" id="address_province" placeholder="จังหวัด" value="{{@$shipping['address_province']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="address_zipcode">รหัสไปรษณีย์</label> <span class="required">*</span>
+                                        <input type="text" name="address_zipcode" class="form-control" id="address_zipcode" placeholder="รหัสไปรษณีย์" value="{{@$shipping['address_zipcode']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="phone">โทรศัพท์</label> <span class="required">*</span>
+                                        <input type="text" name="phone" class="form-control" id="phone" placeholder="โทรศัพท์" value="{{@$shipping['phone']}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="awb_no">AWB No.</label> <span class="required">*</span>
                                         <input type="text" name="awb_no" class="form-control" id="awb_no" placeholder="AWB No." value="{{@$shipping['awb_no']}}" required>
@@ -91,7 +143,7 @@
                                 </div>
                             </div>
                     </div>
-                </div>               
+                </div>            
                 <div class="card">
                     <div class="card-body">
                             <h4 class="card-title">ประเภทเงินได้ที่จ่าย</h4>
@@ -117,7 +169,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="pay_tax">ภาษีที่หักและนำส่งไว้</label> <span class="required">*</span><span style="color: coral"> (หักจากจำนวนที่จ่าย 3 %)</span>
-                                        <input type="number" name="pay_tax" oninput="payTax(this.value)" class="form-control" id="pay_tax" placeholder="ภาษีที่หักและนำส่งไว้" value="{{@$shipping['pay_tax']}}" required>
+                                        <input type="text" name="pay_tax" oninput="payTax(this.value)" class="form-control" id="pay_tax" placeholder="ภาษีที่หักและนำส่งไว้" value="{{@$shipping['pay_tax']}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -253,7 +305,9 @@
             success: function( result ) {
                 $('#shippingId').val(result);
                 document.getElementById("shippingForm").submit();
-                window.location.href = "{{url('shipping')}}";
+                if('{{$page_url}}'=='shipping'){
+                    window.location.href = "{{url('shipping')}}";
+                }
             },
             error: function (error) {
                 alert('โปรดตรวจสอบความถูกต้อง');
@@ -263,14 +317,19 @@
     });
 
     function customerChange(id){
-        console.log(id);
         $.ajax({
             type: "GET",
             url: '{{url("shipping/customer")}}/'+id,
             success: function( result ) {
+                console.log(result);
                 $('#deduct_tax_identification').val(result.companyTaxNo);
                 $('#deduct_name').val(result.companyName);
-                $('#deduct_address').val(result.streetAndNumber+' '+result.district+' '+result.subProvince+' '+result.province+' '+result.postCode);
+                $('#address_street').val(result.streetAndNumber);
+                $('#address_subdistrict').val(result.district);
+                $('#address_district').val(result.subProvince);
+                $('#address_province').val(result.province);
+                $('#address_zipcode').val(result.postCode);
+                // $('#deduct_address').val(result.streetAndNumber+' '+result.district+' '+result.subProvince+' '+result.province+' '+result.postCode);
             },
             error: function (error) {
                 alert(error);

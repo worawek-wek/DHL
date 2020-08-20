@@ -17,7 +17,7 @@ class Billing
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::check() && Auth::user()->isBilling() || Auth::user()->isAdmin()) {
+        if(!Auth::user()->isBilling()) {
             return $next($request);
         } else {
             return redirect('login');
